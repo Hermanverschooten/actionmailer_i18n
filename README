@@ -1,0 +1,6 @@
+I came across the need to have actionmailer send out localized versions of e-mails, so I made the necessary changes to make this work for me...
+
+I was using version 2.3.2 of Rails.
+
+Herman verschooten
+
