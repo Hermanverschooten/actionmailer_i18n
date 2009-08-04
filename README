@@ -4,3 +4,64 @@ I was using version 2.3.2 of Rails.
 
 Herman verschooten
 
+
+Example:
+
+class Notification < ActionMailer::Base
+  def user_created(from, user, hold)
+    @locale       = 'en'
+    @from         = from
+    @recipients   = user.email
+    @bcc          = "support@support.com"
+    @subject      = t("user_created_email")
+    @hold         = hold
+    @body[:user]  = user
+  end
+end
+
+given that a .yml under config/locales/ contains:
+
+:nl
+  user_created_email: "Uw nieuwe gebruiker werd aangemaakt!"
+:en
+  user_created_email: "Your new account was created!"
+
+and
+
+app/views/notification contains:
+
+user_created_en.html.erb
+
+Dear <%= @user.name %>,
+
+Your account has been created.
+
+You can sign in with:
+
+Login: <%= @user.login %>
+Password: <%= @user.password %>
+
+Sincerely,
+
+The team
+
+user_created.html.erb
+
+Geachte <%= @user.name %>,
+
+Je account werd aangemaakt.
+
+Je kan vanaf nu aanmelden met volgende gegevens:
+
+Gebruiker: <%= @user.login %>
+Paswoord: <%= @user.password %>
+
+Met vriendelijke groeten,
+
+Het Team
+
+Then when the locale is set to 'en' as in the above example,
+the recipient will receive the enlish e-mail, all others
+will receive the dutch e-mail.
+
+
